@@ -2,7 +2,7 @@ import string
 from collections import Counter
 import matplotlib.pyplot as plt
 
-text  = open('read.txt',encoding='utf-8').read()
+text  = open('tweettext.txt',encoding='utf-8').read()
 lower_case = text.lower()
 clean_text = lower_case.translate(str.maketrans('','',string.punctuation))
 tokenized_words =  clean_text.split()
@@ -37,7 +37,7 @@ with open('emotions.txt', 'r') as file:
 
 
 w = Counter(emotion_list)
-print(w)
+
 
 fig , ax1 = plt.subplots()
 ax1.bar(w.keys(),w.values())

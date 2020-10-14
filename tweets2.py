@@ -12,12 +12,24 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth,wait_on_rate_limit=True)
 #####United Airlines
 # Open/Create a file to append data
-csvFile = open('ua.csv', 'a')
+csvFile = open('tweets.csv', 'w')
 #Use csv Writer
 csvWriter = csv.writer(csvFile)
-
-for tweet in tweepy.Cursor(api.search,q="#justiceforSSR",count=10,
+c=0
+hashtag = str(input("enter the hashtag you want to search for : "))
+date = str(input("since YYYY-MM-DD :"))
+for tweet in tweepy.Cursor(api.search,q=hashtag,count=100,
                            lang="en",
-                           since="2020-08-03").items():
-    print (tweet.created_at, tweet.text)
-    csvWriter.writerow([tweet.created_at, tweet.text.encode('utf-8')])
+                           since=date).items():
+    if(c<100):
+        c+=1
+        csvWriter.writerow([tweet.created_at, tweet.text.encode('utf-8')])
+    else:
+        break
+
+csv_file = 'tweets.csv'
+txt_file = 'tweettext.txt'
+with open(txt_file, "w") as my_output_file:
+    with open(csv_file, "r") as my_input_file:
+        [ my_output_file.write(" ".join(row)+'\n') for row in csv.reader(my_input_file)]
+    my_output_file.close()
